@@ -1,0 +1,149 @@
+---
+
+- hosts: rel
+  user: esb
+  become: true
+  become_user: root
+  gather_facts: no
+  vars_files:
+   # - /data_storage/deployment/vars/rel_modules.yml
+    - /data_storage/deployment/vars/{{ var_file }}
+  tasks:
+    - name: copy
+      copy:
+        src: jars/{{ item.value.jar }}
+        dest: /tmp/{{ item.value.jar }}
+      with_dict:
+        - "{{ modules }}"
+   
+    - name: get new modules checksum
+      stat:
+        path: /tmp/{{ item.value.jar }}
+        get_checksum: yes 
+      with_dict:
+        - "{{ modules }}"
+      register: checksum_results
+    
+    #- debug:
+    #    var: checksum_results
+
+    - name: add new checksum to deployment list
+      set_fact:
+        modules: "{{ modules | combine(checksum, recursive=true) }}"
+      vars:
+        checksum: "{ '{{ item._ansible_item_label.key }}': {'checksum': '{{item.stat.checksum}}' } }"
+      with_items: "{{ checksum_results.results }}"
+    
+    - name: get old versions
+      shell: "{{ jboss_path }} --connect --command='deployment-info' | grep STOPPED | awk '{ print $1 }'"
+      register: old_versions
+   
+    - debug:
+        var: old_versions.stdout_lines|length 
+   
+    - name: check if remove is necessary
+      set_fact:
+         remove_modules: "{{ old_versions.stdout_lines }}"
+      when: old_versions.stdout_lines|length > 0
+    
+    - name: remove old versions
+      shell: "{{ jboss_path }} --connect --command='/deployment={{ item }}:remove'"
+      with_items: "{{ remove_modules }}"
+      when: remove_modules is defined
+     
+    - name: searching for deployed versions
+      shell: "{{ jboss_path }} --connect --command='deployment-info' | grep -P '^{{ item.key }}-(ear|jar|war)' | grep OK | awk '{print $1}'"
+      with_dict:
+        - "{{ modules }}"
+      register: deployed
+
+    - name: append found deployed to undeploy list
+      set_fact:
+        modules: "{{ modules | combine(deployed_version, recursive=true) }}"
+      vars:
+        deployed_version: "{ '{{ item._ansible_item_label.key }}': {'deployed_version': '{{item.stdout}}' } }"
+      when: item.stdout != ''
+      with_items: "{{ deployed.results }}"
+
+    - name: searching for deployed modules checksum
+      shell: "grep -P -A 1 '(?<=deployment\\sname=\"){{ item.key }}-(ear|jar|war)' {{ standalone_path }} | grep -oP '(?<=\\<content\\ssha1=\").*(?=\"\\/\\>)'"
+      ignore_errors: yes
+      with_dict:
+        - "{{ modules }}"
+      register: old_checksum_results
+  
+    - name: append deployed modules checksums to modules list
+      set_fact:
+        modules: "{{ modules | combine(old_checksum, recursive=true) }}"
+      vars:
+        old_checksum: "{ '{{ item._ansible_item_label.key }}': {'old_checksum': '{{item.stdout}}' } }" 
+      when: item.stdout != ''
+      with_items: "{{ old_checksum_results.results }}"
+
+    #- debug:
+    #    var: modules
+
+    - name: stop httpd
+      service:
+        name: httpd
+        state: stopped
+
+    - name: undeploy old versions
+      shell: "{{ jboss_path }} --connect --command='undeploy {{ item.value.deployed_version }}'"
+      when: item.value.deployed_version is defined and item.value.checksum != item.value.old_checksum
+      with_dict:
+        - "{{ modules }}"
+
+    - name: deploy new versions
+      shell: "{{ jboss_path }} --connect --command='deploy --force /tmp/{{ item.1.jar }}'"
+      when: item.1.old_checksum is not defined or item.1.old_checksum != item.1.checksum
+      loop: "{{ modules|sortbysubkey('priority') }}"
+
+    - name: get deployed version numbers
+      shell: "{{ jboss_path }} --connect --command=\"deployment-info --name={{ item.value.jar }}\" | tail -n 1 | awk '{print $1}'| grep -oP \"(\\d+\\.)+\" | grep -oP '.*(?=\\.$)'"
+      when: item.value.old_checksum is not defined or item.value.checksum != item.value.old_checksum
+      with_dict:
+        - "{{ modules }}"
+      register: versions
+
+    - name: check for append deployed is necessary
+      set_fact:
+        need_append: 1
+      when: versions.changed == true
+   
+    - debug:
+        var: versions
+
+    - name: append current deployed to dictionary
+      set_fact:
+        modules: "{{ modules | combine(new_deployment, recursive=true) }}"
+      vars:
+        new_deployment: "{ '{{ item._ansible_item_label.key }}': {'new_version': '{{item.stdout}}'} }"
+      when: need_append is defined and item.stdout is defined
+      with_items: "{{ versions.results }}"
+     
+    #- debug:
+    #    var: modules
+   
+    - name: configure httpd
+      template:
+        src: templates/{{ item.value.config }}
+        dest: /etc/httpd/conf.d/{{ item.value.config }}
+        owner: apache
+        group: apache
+        mode: 0664
+      when: item.value.config is defined and item.value.new_version is defined
+      with_dict:
+        - "{{ modules }}"
+
+    - name: start httpd
+      service: 
+        name: httpd
+        state: started 
+    
+    - name: cleanup
+      file:
+        path: /tmp/{{ item.value.jar }}
+        state: absent
+      with_dict:
+        - "{{ modules }}"

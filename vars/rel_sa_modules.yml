@@ -1,0 +1,19 @@
+jboss_path: /opt/wildfly/bin/jboss-cli.sh
+
+substitutes:
+  MV-APP-SA-01.bss.in: 192.168.113.14
+  mv-app-sa-01.bss.in: 192.168.113.14
+  localhost: 192.168.113.14
+  8081/: 8080/
+
+modules:
+  adapter-cas:
+    jar: adapter-cas-ear-1704.1.3.1.ear
+    priority: 0
+  sa-core:
+    jar: sa-core-ear-1704.1.3.3.ear
+    config: sa-core.conf
+    priority: 0
+  mock-cas:
+    jar: mock-cas-ear-1703.1.0.ear
+    priority: 0
