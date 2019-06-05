@@ -1,0 +1,9 @@
+<Location /OrchFacadeService/FacadeService_v1>
+    ProxyPass  http://192.168.100.220:8060/OrchFacadeService/FacadeService_v1 timeout=250
+    ProxyPassReverse  http://192.168.100.220:8060/OrchFacadeService/FacadeService_v1
+    AddOutputFilterByType SUBSTITUTE text/xml
+    Substitute s|OrchMock-ejb-{{ modules.OrchMock.new_version }}/OrchFacadeService/FacadeService|OrchFacadeService/FacadeService_v1|
+    {% for key, value in substitutes.iteritems() %}
+    Substitute s|{{ key }}|{{ value }}|
+    {% endfor %}
+</Location>

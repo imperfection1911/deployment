@@ -1,0 +1,29 @@
+<Location /FacadeProcessesService/FacadeProcessesService_v1>
+    ProxyPass http://192.168.100.220:8060/FacadeProcessesService/FacadeProcessesService_v1
+    ProxyPassReverse http://192.168.100.220:8060/FacadeProcessesService/FacadeProcessesService_v1
+    AddOutputFilterByType SUBSTITUTE text/xml
+    Substitute s|AbonentOrchFacade-ejb-{{ modules.AbonentOrch.new_version }}/FacadeProcessesService/FacadeProcessesService|FacadeProcessesService/FacadeProcessesService_v1|
+    {% for key, value in substitutes.iteritems() %}
+    Substitute s|{{ key }}|{{ value }}|
+    {% endfor %}
+</Location>
+
+<Location /OrchFacadeService/AbonentManagementService_v1>
+    ProxyPass http://192.168.100.220:8060/OrchFacadeService/AbonentManagementService_v1
+    ProxyPassReverse http://192.168.100.220:8060/OrchFacadeService/AbonentManagementService_v1
+    AddOutputFilterByType SUBSTITUTE text/xml
+    Substitute s|AbonentOrchFacade-ejb-{{ modules.AbonentOrch.new_version }}/AbonentOrch/AbonentOrchService|OrchFacadeService/AbonentManagementService_v1|
+    {% for key, value in substitutes.iteritems() %}
+    Substitute s|{{ key }}|{{ value }}|
+    {% endfor %}
+</Location>
+
+<Location /OrchFacadeService/AbonentUtilsService_v1>
+    ProxyPass http://192.168.100.220:8060/OrchFacadeService/AbonentUtilsService_v1
+    ProxyPassReverse http://192.168.100.220:8060/OrchFacadeService/AbonentUtilsService_v1
+    AddOutputFilterByType SUBSTITUTE text/xml
+    Substitute s|AbonentOrchFacade-ejb-{{ modules.AbonentOrch.new_version }}/AbonentOrchUtils/AbonentOrchUtilsService|OrchFacadeService/AbonentUtilsService_v1|
+    {% for key, value in substitutes.iteritems() %}
+    Substitute s|{{ key }}|{{ value }}|
+    {% endfor %}
+</Location>

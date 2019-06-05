@@ -1,7 +1,7 @@
 ---
 
-- hosts: rel
-  user: esb
+- hosts: "{{ host }}"
+  user: "{{ login }}"
   become: true
   become_user: root
   gather_facts: no
@@ -111,8 +111,8 @@
         need_append: 1
       when: versions.changed == true
    
-    - debug:
-        var: versions
+    #- debug:
+    #    var: versions
 
     - name: append current deployed to dictionary
       set_fact:
