@@ -1,0 +1,53 @@
+host: esb_notificator
+login: Aaksenov
+jboss_path: /esb/wildfly-8.2.0/bin/jboss-cli.sh
+standalone_path: /esb/wildfly-8.2.0/standalone/configuration/standalone.xml
+
+configs:
+  - abonent-orch.properties  
+  - mobile-api.properties  
+  - ott.properties
+
+substitutes:
+  mv-bus-01: 192.168.100.220
+  mv-bus-02: 192.168.100.220
+  mv-bus-03: 192.168.100.220
+  mv-bus-04: 192.168.100.220
+  mv-orchmain-01: 192.168.100.220
+  mv-orchmain-02: 192.168.100.220
+  mv-orchmain-03: 192.168.100.220
+  mv-orchmain-04: 192.168.100.220
+  mv-orchpg-01: 192.168.100.220
+  mv-orchpg-02: 192.168.100.220
+  mv-notif-01: 192.168.100.220
+  mv-notif-02: 192.168.100.220
+  mv-intg-bus-01: 192.168.100.220
+  192.168.100.244: 192.168.100.220
+  192.168.100.245: 192.168.100.220
+  192.168.100.246: 192.168.100.220
+  192.168.100.247: 192.168.100.220
+  192.168.100.248: 192.168.100.220
+  192.168.100.249: 192.168.100.220
+  192.168.100.250: 192.168.100.220
+  192.168.100.251: 192.168.100.220
+  192.168.100.215: 192.168.100.220
+  192.168.100.216: 192.168.100.220
+  192.168.100.252: 192.168.100.220
+  192.168.100.253: 192.168.100.220
+  localhost: 192.168.100.220
+  8081/: 8080/
+
+modules:
+  ci-adapter:
+    jar: ci-adapter-ear-1704.1.8.18.ear
+    config: cioperations.conf
+    priority: 0
+  cc-adapter:
+    jar: cc-adapter-ear-1704.1.11.3.ear
+    config: ccoperations.conf
+    priority: 0
+  NotificationService:
+    jar: NotificationService-ear-1704.1.11.4.ear
+    config: notification.conf
+    priority: 0
+

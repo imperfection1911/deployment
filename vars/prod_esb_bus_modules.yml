@@ -1,23 +1,46 @@
-host: rel
-login: esb
-templates_dir: templates
-jboss_path: /esb/wildfly-8.2.0/bin/jboss-cli.sh 
+host: esb_all
+login: Aaksenov
+jboss_path: /esb/wildfly-8.2.0/bin/jboss-cli.sh
 standalone_path: /esb/wildfly-8.2.0/standalone/configuration/standalone.xml
 
+configs:
+  - abonent-orch.properties  
+  - mobile-api.properties  
+  - ott.properties
+
 substitutes:
-  MV-BUS-01: 192.168.113.220
-  mv-bus-01: 192.168.113.220
-  localhost: 192.168.113.220
+  mv-bus-01: 192.168.100.220
+  mv-bus-02: 192.168.100.220
+  mv-bus-03: 192.168.100.220
+  mv-bus-04: 192.168.100.220
+  mv-orchmain-01: 192.168.100.220
+  mv-orchmain-02: 192.168.100.220
+  mv-orchmain-03: 192.168.100.220
+  mv-orchmain-04: 192.168.100.220
+  mv-orchpg-01: 192.168.100.220
+  mv-orchpg-02: 192.168.100.220
+  mv-notif-01: 192.168.100.220
+  mv-notif-02: 192.168.100.220
+  mv-intg-bus-01: 192.168.100.220
+  192.168.100.244: 192.168.100.220
+  192.168.100.245: 192.168.100.220
+  192.168.100.246: 192.168.100.220
+  192.168.100.247: 192.168.100.220
+  192.168.100.248: 192.168.100.220
+  192.168.100.249: 192.168.100.220
+  192.168.100.250: 192.168.100.220
+  192.168.100.251: 192.168.100.220
+  192.168.100.215: 192.168.100.220
+  192.168.100.216: 192.168.100.220
+  192.168.100.252: 192.168.100.220
+  192.168.100.253: 192.168.100.220
+  localhost: 192.168.100.220
   8081/: 8080/
 
 modules:
   cases:
     jar: cases-war-1704.1.0.war
     config: cases.conf
-    priority: 0
-  infosrv:
-    jar: infosrv-ear-1704.1.1.2.ear
-    config: infosrv.conf
     priority: 0
   fiscal_check:
     jar: fiscal_check-ear-1704.1.1.2.ear
@@ -28,7 +51,7 @@ modules:
     config: selfcare.conf
     priority: 0
   validation:
-    jar: validation-ear-1704.1.5.5.ear
+    jar: validation-ear-1704.1.4.9.ear
     config: validation.conf
     priority: 0
   pc-adapter:
@@ -40,73 +63,72 @@ modules:
     config: smsgate.conf
     priority: 0
   abonent:
-    jar: abonent-ear-1704.1.4.8.ear
+    jar: abonent-ear-1704.1.4.5.ear
     config: abonent.conf
     priority: 0
   marketing-campaign:
-    jar: marketing-campaign-ear-1704.1.3.4.ear
+    jar: marketing-campaign-ear-1704.1.3.3.ear
     config: marketing-campaign.conf
     priority: 1
-  massoperation:
-     jar: massoperation-ear-1704.1.5.3.ear
-     config: massoperation.conf
-     priority: 0
   AbonentOrch:
-    jar: AbonentOrch-ear-1704.1.9.12.ear
+    jar: AbonentOrch-ear-1704.1.8.42.1.ear
     config: abonent-orch.conf
-    # alternative_config: abonent-orch.conf 
     priority: 0
   billdoc:
     jar: billdoc-ear-1704.1.5.ear
-    config: billdoc.conf 
+    config: billdoc.conf
     priority: 0
   informing:
     jar: informing-ear-1704.1.3.6.ear
     config: informing.conf
     priority: 0
-  legal: 
+  infosrv:
+    jar: infosrv-ear-1704.1.1.1.ear
+    config: infosrv.conf
+    priority: 0
+  legal:
     jar: legal-ear-1704.1.12.12.ear
     config: legal.conf
     priority: 0
   billing:
-    jar: billing-ear-1704.1.43.1.ear
+    jar: billing-ear-1704.1.40.15.ear
     config: billing.conf
     priority: 0
   ci-adapter:
-    jar: ci-adapter-ear-1704.1.8.19.ear
+    jar: ci-adapter-ear-1704.1.8.18.ear
     config: cioperations.conf
     priority: 0
   cc-adapter:
-    jar: cc-adapter-ear-1704.1.11.4.ear
+    jar: cc-adapter-ear-1704.1.11.3.ear
     config: ccoperations.conf
     priority: 0
   ott:
-    jar: ott-ear-1704.1.10.10.ear
+    jar: ott-ear-1704.1.10.6.ear
     config: ott.conf
     priority: 0
   voucher:
-    jar: voucher-ear-1704.1.7.14.ear
+    jar: voucher-ear-1704.1.7.13.ear
     config: voucher.conf
     priority: 0
   sync-crm:
     jar: sync-crm-ear-1704.1.9.11.ear
     config: sync.conf
     priority: 0
-  NotificationService:
-    jar: NotificationService-ear-1704.1.11.4.ear
-    config: notification.conf
-    priority: 0
+  #NotificationService:
+  #  jar: NotificationService-ear-1704.1.11.4.ear
+  #  config: notification.conf
+  #  priority: 0
   OrchMock:
-    jar: OrchMock-ear-1704.1.10.ear
+    jar: OrchMock-ear-1704.1.8.ear
     config: orch.conf
     priority: 0
   inventory:
-    jar: inventory-ear-1704.1.4.2.ear
+    jar: inventory-ear-1704.1.4.1.ear
     config: inventory.conf
     priority: 0
   campaign:
     jar: campaign-ear-1704.1.2.ear
-    config: campaign.conf 
+    config: campaign.conf
     priority: 0
   mapping:
     jar: mapping-ear-1704.1.1.0.ear
@@ -117,17 +139,18 @@ modules:
     config: register.conf
     priority: 0
   mobile-api:
-    jar: mobile-api-ear-1704.1.4.7.ear
+    jar: mobile-api-ear-1704.1.4.4.ear
     config: mobile-api.conf
     priority: 0
-  caseloader:
-    jar: caseloader-ear-1704.1.6.ear
-    priority: 0
+#  caseloader:
+#    jar: caseloader-ear-1704.1.5.ear
+#    priority: 0
   bstrap:
-    jar: bstrap-ear-1704.1.2.4.ear
+    jar: bstrap-ear-1704.1.2.1.ear
     config: bstrap.conf
     priority: 0
   yandex:
     jar: yandex-ear-1704.1.2.ear
     config: yandex.conf
     priority: 0
+

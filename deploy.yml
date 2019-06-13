@@ -122,17 +122,35 @@
       when: need_append is defined and item.stdout is defined
       with_items: "{{ versions.results }}"
      
-    #- debug:
-    #    var: modules
+
+    - name: set httpd config name
+      set_fact:
+        modules: "{{ modules | combine(config_name, recursive=true) }}"
+      vars:
+        config_name: "{ '{{ item.key }}': {'config_name': '{{ item.value.config }}'} }"
+      when: item.value.config is defined
+      with_dict: "{{ modules }}"
+
+  
+    - name: overwrite httpd config name
+      set_fact:
+        modules: "{{ modules | combine(config_name, recursive=true) }}"
+      vars:
+        config_name: "{ '{{ item.key }}': {'config_name': '{{ item.value.alternative_config }}'} }"
+      when: item.value.alternative_config is defined
+      with_dict: "{{ modules }}"
+
+    - debug:
+        var: modules                
    
     - name: configure httpd
       template:
-        src: templates/{{ item.value.config }}
+        src: templates/{{ item.value.config_name }}
         dest: /etc/httpd/conf.d/{{ item.value.config }}
         owner: apache
         group: apache
         mode: 0664
-      when: item.value.config is defined and item.value.new_version is defined
+      when: item.value.config is defined and item.value.new_version is defined and item.value.config_name is defined
       with_dict:
         - "{{ modules }}"
 
