@@ -50,4 +50,3 @@ modules:
     jar: NotificationService-ear-1704.1.11.4.ear
     config: notification.conf
     priority: 0
-

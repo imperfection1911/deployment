@@ -1,0 +1,24 @@
+host: rel_notificator
+login: esb
+templates_dir: templates
+jboss_path: /esb/wildfly-8.2.0/bin/jboss-cli.sh 
+standalone_path: /esb/wildfly-8.2.0/standalone/configuration/standalone.xml
+
+substitutes:
+  MV-NOTIF-01: 192.168.113.222
+  mv-notif-01: 192.168.113.222
+  localhost: 192.168.113.222
+  8081/: 8080/
+
+modules:
+  logger:
+    jar: logger-ear-1704.1.2.1.ear
+    config: logger.conf
+    enabled: true
+    priority: 0
+  NotificationService:
+    jar: NotificationService-ear-1704.1.11.6.ear
+    config: notification.conf
+    enabled: true
+    priority: 0
+  

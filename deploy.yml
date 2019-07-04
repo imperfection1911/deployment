@@ -95,12 +95,12 @@
         - "{{ modules }}"
 
     - name: deploy new versions
-      shell: "{{ jboss_path }} --connect --command='deploy --force /tmp/{{ item.1.jar }}'"
+      shell: "{{ jboss_path }} --connect --command='deploy --disabled /tmp/{{ item.1.jar }}'"
       when: item.1.old_checksum is not defined or item.1.old_checksum != item.1.checksum
       loop: "{{ modules|sortbysubkey('priority') }}"
 
     - name: get deployed version numbers
-      shell: "{{ jboss_path }} --connect --command=\"deployment-info --name={{ item.value.jar }}\" | tail -n 1 | awk '{print $1}'| grep -oP \"(\\d+\\.)+\" | grep -oP '.*(?=\\.$)'"
+      shell: "{{ jboss_path }} --connect --command=\"deployment-info --name={{ item.value.jar }}\" | tail -n 1 | awk '{print $1}' | grep -oP '(?<=(ear|war|jar)-).*(?=\\.(ear|war|jar))'"
       when: item.value.old_checksum is not defined or item.value.checksum != item.value.old_checksum
       with_dict:
         - "{{ modules }}"
@@ -153,6 +153,16 @@
       when: item.value.config is defined and item.value.new_version is defined and item.value.config_name is defined
       with_dict:
         - "{{ modules }}"
+
+    - name: enable modules
+      shell: "{{ jboss_path }} --connect --command='/deployment={{ item.1.jar }}:deploy'"
+      when: item.1.enabled
+      loop: "{{ modules|sortbysubkey('priority') }}"
+
+    - name: disable modules
+      shell: "{{ jboss_path }} --connect --command='/deployment={{ item.1.jar }}:undeploy'"
+      when: not item.1.enabled
+      loop: "{{ modules|sortbysubkey('priority') }}"
 
     - name: start httpd
       service: 

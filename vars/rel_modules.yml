@@ -11,123 +11,177 @@ substitutes:
   8081/: 8080/
 
 modules:
+  detailed:
+    jar: detailed-ear-1704.1.2.ear
+    config: detailed.conf
+    enabled: true
+    priority: 0
+  cas:
+    jar: cas-ear-1704.1.8.2.ear
+    config: cas.conf
+    enabled: true
+    priority: 0
+  logger:
+    jar: logger-ear-1704.1.2.1.ear
+    config: logger.conf
+    enabled: true
+    priority: 0
+  header-service:
+    jar: header-service-ear-1704.1.1.ear
+    config: header-service.conf
+    enabled: true
+    priority: 0
+  blockManager:
+    jar: blockManager-ear-1704.1.5.1.ear
+    config: blockmanager.conf
+    enabled: true
+    priority: 0
   cases:
     jar: cases-war-1704.1.0.war
     config: cases.conf
+    enabled: true
     priority: 0
   infosrv:
     jar: infosrv-ear-1704.1.1.2.ear
     config: infosrv.conf
+    enabled: true
     priority: 0
   fiscal_check:
-    jar: fiscal_check-ear-1704.1.1.2.ear
+    jar: fiscal_check-ear-1704.1.5.ear
     config: fiscal.conf
+    enabled: true
     priority: 0
   selfcare:
     jar: selfcare-ear-1704.1.2.4.ear
     config: selfcare.conf
+    enabled: true
     priority: 0
   validation:
-    jar: validation-ear-1704.1.5.5.ear
+    jar: validation-ear-1704.1.5.7.ear
     config: validation.conf
+    enabled: true
     priority: 0
   pc-adapter:
     jar: pc-adapter-ear-1704.1.6.1.ear
     config: pcoperations.conf
+    enabled: true
     priority: 0
   sms-gate:
     jar: sms-gate-ear-1704.1.3.1.ear
     config: smsgate.conf
+    enabled: true
     priority: 0
   abonent:
-    jar: abonent-ear-1704.1.4.8.ear
+    jar: abonent-ear-1704.1.4.11.ear
     config: abonent.conf
+    enabled: true
     priority: 0
   marketing-campaign:
-    jar: marketing-campaign-ear-1704.1.3.4.ear
+    jar: marketing-campaign-ear-1704.1.4.1.ear
     config: marketing-campaign.conf
+    enabled: true
     priority: 1
   massoperation:
      jar: massoperation-ear-1704.1.5.3.ear
      config: massoperation.conf
+     enabled: true
      priority: 0
   AbonentOrch:
-    jar: AbonentOrch-ear-1704.1.9.12.ear
+    jar: AbonentOrch-ear-1704.1.9.24.ear
     config: abonent-orch.conf
     # alternative_config: abonent-orch.conf 
+    enabled: true
     priority: 0
   billdoc:
     jar: billdoc-ear-1704.1.5.ear
     config: billdoc.conf 
+    enabled: true
     priority: 0
   informing:
-    jar: informing-ear-1704.1.3.6.ear
+    jar: informing-ear-1704.1.4.1.ear
     config: informing.conf
+    enabled: true
     priority: 0
   legal: 
-    jar: legal-ear-1704.1.12.12.ear
+    jar: legal-ear-R4FP7.1.1.ear
     config: legal.conf
+    enabled: true
     priority: 0
   billing:
-    jar: billing-ear-1704.1.43.1.ear
+    jar: billing-ear-R4FP7.6.1.ear
     config: billing.conf
+    enabled: true
     priority: 0
   ci-adapter:
-    jar: ci-adapter-ear-1704.1.8.19.ear
+    jar: ci-adapter-ear-1704.1.9.2.ear
     config: cioperations.conf
+    enabled: true
     priority: 0
   cc-adapter:
-    jar: cc-adapter-ear-1704.1.11.4.ear
+    jar: cc-adapter-ear-R4FP7.1.1.ear
     config: ccoperations.conf
+    enabled: true
     priority: 0
   ott:
-    jar: ott-ear-1704.1.10.10.ear
+    jar: ott-ear-1704.1.12.1.ear
     config: ott.conf
+    enabled: true
     priority: 0
   voucher:
-    jar: voucher-ear-1704.1.7.14.ear
+    jar: voucher-ear-1704.1.8.1.ear
     config: voucher.conf
+    enabled: true
     priority: 0
   sync-crm:
-    jar: sync-crm-ear-1704.1.9.11.ear
+    jar: sync-crm-ear-R4FP7.2.1.ear
     config: sync.conf
+    enabled: true
     priority: 0
-  NotificationService:
-    jar: NotificationService-ear-1704.1.11.4.ear
-    config: notification.conf
-    priority: 0
+  #NotificationService:
+  #  jar: NotificationService-ear-1704.1.11.5.ear
+  #  config: notification.conf
+  #  priority: 0
   OrchMock:
-    jar: OrchMock-ear-1704.1.10.ear
+    jar: OrchMock-ear-1704.1.11.ear
     config: orch.conf
+    enabled: true
     priority: 0
   inventory:
     jar: inventory-ear-1704.1.4.2.ear
     config: inventory.conf
+    enabled: true
     priority: 0
   campaign:
-    jar: campaign-ear-1704.1.2.ear
+    jar: campaign-ear-1704.1.3.1.ear
     config: campaign.conf 
+    enabled: true
     priority: 0
   mapping:
     jar: mapping-ear-1704.1.1.0.ear
     config: mapping.conf
+    enabled: true
     priority: 0
   registerReceivers-api:
-    jar: registerReceivers-api-ear-1704.1.4.4.ear
+    jar: registerReceivers-api-ear-1704.1.5.1.ear
     config: register.conf
+    enabled: true
     priority: 0
   mobile-api:
-    jar: mobile-api-ear-1704.1.4.7.ear
+    jar: mobile-api-ear-1704.1.5.2.ear
     config: mobile-api.conf
+    enabled: true
     priority: 0
   caseloader:
     jar: caseloader-ear-1704.1.6.ear
+    enabled: true
     priority: 0
   bstrap:
-    jar: bstrap-ear-1704.1.2.4.ear
+    jar: bstrap-ear-1704.1.2.5.ear
     config: bstrap.conf
+    enabled: true
     priority: 0
   yandex:
     jar: yandex-ear-1704.1.2.ear
     config: yandex.conf
+    enabled: true
     priority: 0

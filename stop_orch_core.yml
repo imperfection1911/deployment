@@ -1,0 +1,25 @@
+---
+
+- hosts: "{{ host }}"
+  user: "{{ login }}"
+  become: true
+  become_user: root
+  vars_files:
+    - /data_storage/deployment/vars/{{ var_file }}
+  tasks:
+    - name: delete httpd configs for cc-adapter
+      file: 
+        path: /etc/httpd/conf.d/{{ item }}
+        state: absent
+      with_items:
+        - ccabonoperations.conf
+        - cclegaloperations.conf
+
+    - name: find orch core
+      shell: "{{ jboss_path }} --connect --command='deployment-info' | grep -P '^OrchMock-(ear|jar|war)' | grep OK | awk '{print $1}'"
+      register: deployed
+   
+    - name: undeploy orch core
+      shell: "{{ jboss_path }} --connect --command='undeploy {{ deployed.stdout }}'"
+
+

@@ -43,7 +43,7 @@ modules:
     config: cases.conf
     priority: 0
   fiscal_check:
-    jar: fiscal_check-ear-1704.1.1.2.ear
+    jar: fiscal_check-ear-1704.1.2.ear
     config: fiscal.conf
     priority: 0
   selfcare:
@@ -51,7 +51,7 @@ modules:
     config: selfcare.conf
     priority: 0
   validation:
-    jar: validation-ear-1704.1.4.9.ear
+    jar: validation-ear-1704.1.5.6.ear
     config: validation.conf
     priority: 0
   pc-adapter:
@@ -63,16 +63,21 @@ modules:
     config: smsgate.conf
     priority: 0
   abonent:
-    jar: abonent-ear-1704.1.4.5.ear
+    jar: abonent-ear-1704.1.4.8.ear
     config: abonent.conf
     priority: 0
   marketing-campaign:
-    jar: marketing-campaign-ear-1704.1.3.3.ear
+    jar: marketing-campaign-ear-1704.1.3.4.ear
     config: marketing-campaign.conf
     priority: 1
+  massoperation:
+    jar: massoperation-ear-1704.1.5.3.ear
+    config: massoperation.conf
+    priority: 0
   AbonentOrch:
-    jar: AbonentOrch-ear-1704.1.8.42.1.ear
+    jar: AbonentOrch-ear-1704.1.9.17.1.ear
     config: abonent-orch.conf
+    #alternative_config: abonent-orch.conf.apache
     priority: 0
   billdoc:
     jar: billdoc-ear-1704.1.5.ear
@@ -83,7 +88,7 @@ modules:
     config: informing.conf
     priority: 0
   infosrv:
-    jar: infosrv-ear-1704.1.1.1.ear
+    jar: infosrv-ear-1704.1.1.2.ear
     config: infosrv.conf
     priority: 0
   legal:
@@ -91,39 +96,36 @@ modules:
     config: legal.conf
     priority: 0
   billing:
-    jar: billing-ear-1704.1.40.15.ear
+    jar: billing-ear-1704.1.43.1.ear
     config: billing.conf
     priority: 0
   ci-adapter:
-    jar: ci-adapter-ear-1704.1.8.18.ear
+    jar: ci-adapter-ear-1704.1.8.19.ear
     config: cioperations.conf
     priority: 0
   cc-adapter:
-    jar: cc-adapter-ear-1704.1.11.3.ear
+    jar: cc-adapter-ear-1704.1.11.4.ear
     config: ccoperations.conf
     priority: 0
   ott:
-    jar: ott-ear-1704.1.10.6.ear
+    jar: ott-ear-1704.1.10.11.ear
     config: ott.conf
     priority: 0
   voucher:
-    jar: voucher-ear-1704.1.7.13.ear
+    jar: voucher-ear-1704.1.7.14.ear
     config: voucher.conf
     priority: 0
   sync-crm:
     jar: sync-crm-ear-1704.1.9.11.ear
     config: sync.conf
     priority: 0
-  #NotificationService:
-  #  jar: NotificationService-ear-1704.1.11.4.ear
-  #  config: notification.conf
-  #  priority: 0
   OrchMock:
-    jar: OrchMock-ear-1704.1.8.ear
+    jar: OrchMock-ear-1704.1.10.ear
     config: orch.conf
-    priority: 0
+    #alternative_config: orch.conf.apache
+    priority: 2
   inventory:
-    jar: inventory-ear-1704.1.4.1.ear
+    jar: inventory-ear-1704.1.4.2.ear
     config: inventory.conf
     priority: 0
   campaign:
@@ -139,18 +141,14 @@ modules:
     config: register.conf
     priority: 0
   mobile-api:
-    jar: mobile-api-ear-1704.1.4.4.ear
+    jar: mobile-api-ear-1704.1.4.5.ear
     config: mobile-api.conf
     priority: 0
-#  caseloader:
-#    jar: caseloader-ear-1704.1.5.ear
-#    priority: 0
   bstrap:
-    jar: bstrap-ear-1704.1.2.1.ear
+    jar: bstrap-ear-1704.1.2.5.ear
     config: bstrap.conf
     priority: 0
   yandex:
     jar: yandex-ear-1704.1.2.ear
     config: yandex.conf
     priority: 0
-
